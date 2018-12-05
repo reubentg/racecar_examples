@@ -9,7 +9,8 @@
     <node name="apply_filter" pkg="racecar_examples" type="ApplyFilter.py" output="screen">
         <param name="filter_path" type="string" value="/home/car-user/racecar_ws/src/racecar_examples/data/filter1.csv" />
         <param name="sub_topic" type="string" value="/camera/color/image_raw" />
-        <param name="pub_topic" type="string" value="/camera/color/image_filtered" />
+        <param name="pub_topic_red" type="string" value="/camera/color/image_filtered_red" />
+        <param name="pub_topic_blue" type="string" value="/camera/color/image_filtered_blue" />
     </node>
     
 </launch>
