@@ -48,7 +48,7 @@ class Filter:
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (7, 7), 0)
         
         try:
-            self.pub.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, "bgr8")
+            self.pub.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, "bgr8"))
         except CvBridgeError as e:
             print e
     
