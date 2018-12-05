@@ -39,8 +39,8 @@ class Filter:
 
 
         # define range of blue color in HSV WORKED WELL
-        lower_blue = np.array([120,50,50])
-        upper_blue = np.array([300,255,255])
+        lower_blue = np.array([120,50,25])
+        upper_blue = np.array([300,100,100])
 
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
         mask_red = (mask_red0 + mask_red1)
