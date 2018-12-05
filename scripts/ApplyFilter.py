@@ -16,7 +16,8 @@ class Filter:
         if len(self.filter.shape) < 2: # If filter is one-dimensional, add axis
             self.filter = self.filter[np.newaxis,:]
         self.sub = rospy.Subscriber(sub_topic, Image, self.apply_filter_cb, queue_size=5)
-        self.pub = rospy.Publisher(pub_topic, Image, queue_size=1)
+        self.pub_red = rospy.Publisher(pub_topic_red, Image, queue_size=1)
+        self.pub_blue = rospy.Publisher(pub_topic_blue, Image, queue_size=1)
         self.bridge = CvBridge()
     
     def apply_filter_cb(self, msg):
@@ -48,7 +49,8 @@ class Filter:
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (7, 7), 0)
         
         try:
-            self.pub.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, encoding="passthrough"))
+            self.pub_red.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, encoding="passthrough"))
+            self.pub_blue.publish(self.bridge.cv2_to_imgmsg(mask_blue_blur, encoding="passthrough"))
         except CvBridgeError as e:
             print e
     
@@ -88,7 +90,8 @@ if __name__ == '__main__':
     # Populate params with values passed by launch file
     filter_path = rospy.get_param("~filter_path", None)
     sub_topic = rospy.get_param("~sub_topic", None)
-    pub_topic = rospy.get_param("~pub_topic", None)
+    pub_topic_red = rospy.get_param("~pub_topic_red", None)
+    pub_topic_blue = rospy.get_param("~pub_topic_blue", None)
     
     f = Filter(filter_path, sub_topic, pub_topic)
     rospy.spin()
