@@ -5,6 +5,7 @@ import numpy as np
 from scipy import signal
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+import cv2
 
 # Applies a filter to images received on a specified topic and publishes the filtered image
 class Filter:
