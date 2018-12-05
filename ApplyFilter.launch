@@ -1,0 +1,15 @@
+<launch>
+
+    <!--
+        filter_path: The path to a csv file containing the filter to be applied
+        sub_topic: The image topic that the filter should be applied to
+        pub_topic: The topic that the filtered image will be published to
+    -->
+    
+    <node name="apply_filter" pkg="racecar_examples" type="ApplyFilter.py" output="screen">
+        <param name="filter_path" type="string" value="/home/car-user/racecar_ws/src/racecar_examples/data/filter1.csv" />
+        <param name="sub_topic" type="string" value="/camera/color/image_raw" />
+        <param name="pub_topic" type="string" value="/camera/color/image_filtered" />
+    </node>
+    
+</launch>
