@@ -61,37 +61,7 @@ class Filter:
         in_shape = in_image.shape
         out_shape = (in_shape[0]-self.filter.shape[0]+1, 
                      in_shape[1]-self.filter.shape[1]+1, 
-                     in_shape[2])    img = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-
-    # define range of red color in HSV NOT THE BEST ON THE FLOOR
-    lower_red = np.array([0,30, 30])
-    upper_red= np.array([14, 255, 255])
-    mask_red0 = cv2.inRange(img, lower_red, upper_red)
-
-    lower_red = np.array([160,30, 30])
-    upper_red= np.array([180, 255, 255])
-    mask_red1 = cv2.inRange(img, lower_red, upper_red)
-
-    mask_red = (mask_red0 + mask_red1)
-
-    #define range of blue color in RGB
-   # lower_red = np.array([150, 50, 50])
-    #  upper_red= np.array([255, 155, 155])
-   # mask_red = cv2.inRange(img, lower_red, upper_red)
-
-    # define range of blue color in HSV WORKED WELL
-    lower_blue = np.array([110,50,50])
-    upper_blue = np.array([130,255,255])
-
-
-    # Threshold the HSV image to get only red colors & blue colors
-    #mask_red = cv2.inRange(img, lower_red, upper_red)
-    mask_blue = cv2.inRange(img, lower_blue, upper_blue)
-
-    mask_red_blur = cv2.GaussianBlur(mask_red, (7,7), 0 )
-    mask_blue_blur = cv2.GaussianBlur(mask_blue, (7, 7), 0)
+                     in_shape[2])
         out_image = np.ndarray(shape=out_shape, dtype=in_image.dtype)
 
         # Apply filter to each channel of the image
@@ -103,6 +73,7 @@ class Filter:
             self.pub.publish(self.bridge.cv2_to_imgmsg(out_image, encoding="passthrough"))
         except CvBridgeErroor as e:
             print(e)
+
         
 if __name__ == '__main__':
     filter_path = None # The path to a csv file containing the filter to be applied
