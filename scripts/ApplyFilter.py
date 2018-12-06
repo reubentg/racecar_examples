@@ -30,11 +30,11 @@ class Filter:
         # print height, width, channels
 
         # define range of red color in HSV NOT THE BEST ON THE FLOOR
-        lower_red = np.array([0,30, 30])
+        lower_red = np.array([0,50, 50])
         upper_red= np.array([14, 255, 255])
         mask_red0 = cv2.inRange(img, lower_red, upper_red)
 
-        lower_red = np.array([160,30, 30])
+        lower_red = np.array([160,50, 50])
         upper_red= np.array([180, 255, 255])
         mask_red1 = cv2.inRange(img, lower_red, upper_red)
 
