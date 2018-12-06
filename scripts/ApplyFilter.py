@@ -39,8 +39,8 @@ class Filter:
 
 
         # define range of blue color in HSV WORKED WELL
-        lower_blue = np.array([180,50,50])
-        upper_blue = np.array([220,100,85])
+        lower_blue = np.array([120,50,50])
+        upper_blue = np.array([240,100,100])
 
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
         mask_red = (mask_red0 + mask_red1)
@@ -76,7 +76,7 @@ class Filter:
         # Publish the resulting image
         try:
             self.pub.publish(self.bridge.cv2_to_imgmsg(out_image, encoding="passthrough"))
-        except CvBridgeErroor as e:
+        except CvBridgeError as e:
             print(e)
 
         
