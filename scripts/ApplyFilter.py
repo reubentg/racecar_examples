@@ -38,17 +38,17 @@ class Filter:
 
         # define range of blue color in HSV WORKED WELL on my computer not on car
         # trying for RGB with blue since it is being difficult
-        # lower_blue = np.array([95,105, 20])
-        # upper_blue = np.array([115, 255, 255])
-        lower_blue = np.array([0,   0, 200 ])
-        upper_blue = np.array([65, 65, 255])
+        lower_blue = np.array([95,105, 20])
+        upper_blue = np.array([115, 255, 255])
+        # lower_blue = np.array([0,   0, 200 ])
+        # upper_blue = np.array([65, 65, 255])
 
         #mask for the colors
-        mask_blue = cv2.inRange(in_image, lower_blue, upper_blue)
+        mask_blue = cv2.inRange(img, lower_blue, upper_blue)
         mask_red = (mask_red0 + mask_red1)
 
-        mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
-        mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
+        mask_red_blur = cv2.GaussianBlur(mask_red, (7,7), 0 )
+        mask_blue_blur = cv2.GaussianBlur(mask_blue, (7, 7), 0)
         
         try:
             self.pub_red.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, encoding="passthrough"))
