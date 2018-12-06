@@ -26,7 +26,7 @@ class Filter:
         except CvBridgeError as e:
             print(e)
         img = cv2.cvtColor(in_image, cv2.COLOR_BGR2HSV)
-        height, width, channels = frame.shape
+        height, width, channels = img.shape
         print height, width, channels
 
         # define range of red color in HSV NOT THE BEST ON THE FLOOR
