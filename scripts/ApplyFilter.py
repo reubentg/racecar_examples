@@ -49,7 +49,7 @@ class Filter:
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
         mask_red = (mask_red0 + mask_red1)
 
-        mask_red_blur = cv2.GaussianBlur(mask_red, (7,7), 0 )
+        mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
         
         try:
