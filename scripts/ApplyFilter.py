@@ -26,8 +26,8 @@ class Filter:
         except CvBridgeError as e:
             print(e)
         img = cv2.cvtColor(in_image, cv2.COLOR_BGR2HSV)
-        height, width, channels = img.shape
-        print height, width, channels
+        # height, width, channels = img.shape
+        # print height, width, channels
 
         # define range of red color in HSV NOT THE BEST ON THE FLOOR
         lower_red = np.array([0,30, 30])
@@ -49,7 +49,7 @@ class Filter:
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
         mask_red = (mask_red0 + mask_red1)
 
-        mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
+        mask_red_blur = cv2.GaussianBlur(mask_red, (7,7), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
         
         try:
