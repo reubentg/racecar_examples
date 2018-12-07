@@ -48,7 +48,8 @@ class Filter:
 
         mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
-        cropped_blue() = np.zeros(0,7)
+
+        cropped_blue = np.zeros(7)
 
         cropped_blue[0] = np.count_nonzero(mask_blue_blur[0:480, 0:150])
         cropped_blue[1] = np.count_nonzero(mask_blue_blur[0:480, 151:250])
