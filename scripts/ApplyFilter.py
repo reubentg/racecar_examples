@@ -58,7 +58,7 @@ class Filter:
 
         cropped_blue4 = np.count_nonzero(mask_blue_blur[0:480, 341:390])
         cropped_blue5 = np.count_nonzero(mask_blue_blur[0:480, 391:490])
-        cropped_blue6 = np.count_nonzero(mask_blue_blur[0:480, 491:640])
+        cropped_blue6 = cv2.count_nonzero(mask_blue_blur[0:480, 491:640])
 
         #croppped_blue[:, 6] = mask_blue_blur[0:480, 491:640]
         cropped_blue[:, 6] = cropped_blue6
@@ -67,12 +67,12 @@ class Filter:
 
         cropped_blue = np.count_nonzero(cropped_blue)
 
-        croppped_red = np.count_nonzero( mask_red_blur[0:300, 300:340])
+        # cropped_red = np.count_nonzero( mask_red_blur[0:300, 300:340])
 
         print 'cropped_blue: '
-        print str(croppped_blue)
+        print str(cropped_blue6)
         print 'red: '
-        print str(croppped_red)
+        print str(cropped_red)
 
         cropped_fl_blue = mask_blue_blur[0:480, 0:150]
         cropped_l_blue = mask_blue_blur[0:480, 151:300]
