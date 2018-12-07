@@ -58,7 +58,7 @@ class Filter:
 
         cropped_blue4 = np.count_nonzero(mask_blue_blur[0:480, 341:390])
         cropped_blue5 = np.count_nonzero(mask_blue_blur[0:480, 391:490])
-        cropped_blue6 = cv2.count_nonzero(mask_blue_blur[0:480, 491:640])
+        cropped_blue6 = np.count_nonzero(mask_blue_blur[0:480, 491:640])
 
         #croppped_blue[:, 6] = mask_blue_blur[0:480, 491:640]
         cropped_blue[:, 6] = cropped_blue6
