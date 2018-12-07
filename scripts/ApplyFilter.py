@@ -66,7 +66,7 @@ class Filter:
         cropped_blue = np.count_nonzero(cropped_blue)
 
         print 'cropped_blue: '
-        print str(cropped_blue)
+        print (cropped_blue)
         print 'red: '
         # print str(cropped_red)
 
