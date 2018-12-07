@@ -26,7 +26,7 @@ class Filter:
         except CvBridgeError as e:
             print(e)
         img = cv2.cvtColor(in_image, cv2.COLOR_BGR2HSV)
-        # height, width, channels = img.shape
+        # height, width, channels = img.shape #480 x 640
         # print height, width, channels
 
         # define range of red color in HSV NOT THE BEST ON THE FLOOR
@@ -38,12 +38,9 @@ class Filter:
         upper_red= np.array([180, 255, 255])
         mask_red1 = cv2.inRange(img, lower_red, upper_red)
 
-        # define range of blue color in HSV WORKED WELL on my computer not on car
-        # trying for RGB with blue since it is being difficult
+        # define range of blue color in HSV
         lower_blue = np.array([95,105, 20])
         upper_blue = np.array([115, 255, 255])
-        # lower_blue = np.array([0,   0, 200 ])
-        # upper_blue = np.array([65, 65, 255])
 
         #mask for the colors
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
@@ -51,7 +48,41 @@ class Filter:
 
         mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
-        
+        croppped_blue = np.zeros((5,), dtype=np.int)
+
+        croppped_blue[:, 0] = np.count_nonzero(mask_blue_blur[0:480, 0:150])
+        croppped_blue[:, 1] = np.count_nonzero(mask_blue_blur[0:480, 151:250])
+        croppped_blue[:, 2] = np.count_nonzero(mask_blue_blur[0:480, 251:300])
+
+        croppped_blue[:, 3] = np.count_nonzero(mask_blue_blur[0:480, 300:340])
+
+        croppped_blue[:, 4] = np.count_nonzero(mask_blue_blur[0:480, 341:390])
+        croppped_blue[:, 5] = np.count_nonzero(mask_blue_blur[0:480, 391:490])
+        croppped_blue[:, 6] = np.count_nonzero(mask_blue_blur[0:480, 491:640])
+
+        #croppped_blue[:, 6] = mask_blue_blur[0:480, 491:640]
+
+        croppped_red = mask_red_blur[0:300, 300:340]
+
+        cropped_blue = np.count_nonzero(croppped_blue)
+
+        croppped_red = np.count_nonzero( mask_red_blur[0:300, 300:340])
+
+        print 'cropped_blue: '
+        print str(croppped_blue)
+        print 'red: '
+        print str(croppped_red)
+
+        cropped_fl_blue = mask_blue_blur[0:480, 0:150]
+        cropped_l_blue = mask_blue_blur[0:480, 151:300]
+        cropped_c_blue = mask_blue_blur[0:480, 300:340]
+        cropped_r_blue = mask_blue_blur[0:480, 340:490]
+        cropped_fr_blue = mask_blue_blur[0:480, 491:640]
+
+        cropped_blue= cv2.countNonZero(croppped_blue)
+
+
+
         try:
             self.pub_red.publish(self.bridge.cv2_to_imgmsg(mask_red_blur, encoding="passthrough"))
             self.pub_blue.publish(self.bridge.cv2_to_imgmsg(mask_blue_blur, encoding="passthrough"))
