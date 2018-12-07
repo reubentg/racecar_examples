@@ -48,31 +48,26 @@ class Filter:
 
         mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
-        cropped_blue = np.zeros((7,), dtype=np.int64)
+        cropped_blue() = np.zeros(0,7)
 
-        cropped_blue0 = np.count_nonzero(mask_blue_blur[0:480, 0:150])
-        croppped_blue1 = np.count_nonzero(mask_blue_blur[0:480, 151:250])
-        cropped_blue2 = np.count_nonzero(mask_blue_blur[0:480, 251:300])
+        cropped_blue[0] = np.count_nonzero(mask_blue_blur[0:480, 0:150])
+        cropped_blue[1] = np.count_nonzero(mask_blue_blur[0:480, 151:250])
+        cropped_blue[2] = np.count_nonzero(mask_blue_blur[0:480, 251:300])
 
-        cropped_blue3 = np.count_nonzero(mask_blue_blur[0:480, 300:340])
+        cropped_blue[3] = np.count_nonzero(mask_blue_blur[0:480, 300:340])
 
-        cropped_blue4 = np.count_nonzero(mask_blue_blur[0:480, 341:390])
-        cropped_blue5 = np.count_nonzero(mask_blue_blur[0:480, 391:490])
-        cropped_blue6 = np.count_nonzero(mask_blue_blur[0:480, 491:640])
-
-        #croppped_blue[:, 6] = mask_blue_blur[0:480, 491:640]
-        cropped_blue[:, 6] = cropped_blue6
+        cropped_blue[4] = np.count_nonzero(mask_blue_blur[0:480, 341:390])
+        cropped_blue[5] = np.count_nonzero(mask_blue_blur[0:480, 391:490])
+        cropped_blue[6] = np.count_nonzero(mask_blue_blur[0:480, 491:640])
 
         croppped_red = mask_red_blur[0:300, 300:340]
 
         cropped_blue = np.count_nonzero(cropped_blue)
 
-        # cropped_red = np.count_nonzero( mask_red_blur[0:300, 300:340])
-
         print 'cropped_blue: '
-        print str(cropped_blue6)
+        print str(cropped_blue)
         print 'red: '
-       # print str(cropped_red)
+        # print str(cropped_red)
 
         cropped_fl_blue = mask_blue_blur[0:480, 0:150]
         cropped_l_blue = mask_blue_blur[0:480, 151:300]
