@@ -61,14 +61,14 @@ class Filter:
         cropped_blue[5] = np.count_nonzero(mask_blue_blur[0:480, 391:490])
         cropped_blue[6] = np.count_nonzero(mask_blue_blur[0:480, 491:640])
 
-        croppped_red = mask_red_blur[0:300, 300:340]
+        cropped_red = mask_red_blur[0:300, 300:340]
 
         cropped_blue = np.count_nonzero(cropped_blue)
 
         print 'cropped_blue: '
-        print (cropped_blue)
+        print str(cropped_blue).strip('[]')
         print 'red: '
-        # print str(cropped_red)
+         print str(cropped_red)
 
         cropped_fl_blue = mask_blue_blur[0:480, 0:150]
         cropped_l_blue = mask_blue_blur[0:480, 151:300]
