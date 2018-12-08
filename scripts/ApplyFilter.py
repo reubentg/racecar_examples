@@ -49,7 +49,7 @@ class Filter:
         mask_red_blur = cv2.GaussianBlur(mask_red, (11,11), 0 )
         mask_blue_blur = cv2.GaussianBlur(mask_blue, (11, 11), 0)
 
-        status = cv2.imwrite("/home/nvidia/MakedBlue", mask_blue_blur)
+        status = cv2.imwrite("/home/nvidia/MakedBlue", self.bridge.cv2_to_imgmsg(mask_blue_blur, encoding="passthrough"))
         print status
 
         cropped_blue = np.zeros[6]
