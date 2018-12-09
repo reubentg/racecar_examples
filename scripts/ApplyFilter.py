@@ -51,7 +51,7 @@ class Filter:
             center = (int(x), int(y))
             a = np.arctan2(x - 320, 480 - y) * 180 / np.pi
 
-            print 'angle: ', a
+            print 'angle:%f radius:%f ' % (a, radius)
 
             # only proceed if the radius meets a minimum size
             if radius > 10:
