@@ -28,10 +28,15 @@ class Filter:
             print(e)
         img = cv2.cvtColor(in_image, cv2.COLOR_BGR2HSV)
 
-        # Our operations on the frame come here
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # blur = cv2.GaussianBlur(gray,(5,5),0)
-        # ret, thresh_img = cv2.threshold(blur,91,255,cv2.THRESH_BINARY)
+        lower_red = np.array([0,50, 50])
+        upper_red= np.array([14, 255, 255])
+        mask_red0 = cv2.inRange(img, lower_red, upper_red)
+
+        lower_red = np.array([160,50, 50])
+        upper_red= np.array([180, 255, 255])
+        mask_red1 = cv2.inRange(img, lower_red, upper_red)
+
+        mask_red = (mask_red0 + mask_red1)
 
         # define range of blue color in HSV
         lower_blue = np.array([95, 105, 20])
@@ -40,18 +45,23 @@ class Filter:
         # mask for the colors
         mask_blue = cv2.inRange(img, lower_blue, upper_blue)
 
-        thresh = cv2.threshold(mask_blue, 127, 255, cv2.THRESH_BINARY)[1]
+        thresh_blue = cv2.threshold(mask_blue, 127, 255, cv2.THRESH_BINARY)[1]
         #    thresh = cv2.threshold(mask_blue,60,255,cv2.THRESH_BINARY)[1]
 
-        cnts = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[-2]
+        cnts_blue = cv2.findContours(thresh_blue, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
-        if len(cnts) > 5:
-            maxcontour = max(cnts, key=cv2.contourArea)
+        thresh_red = cv2.threshold(mask_red, 127, 255, cv2.THRESH_BINARY)[1]
+        #    thresh = cv2.threshold(mask_blue,60,255,cv2.THRESH_BINARY)[1]
+
+        cnts_red = cv2.findContours(thresh_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)[-2]
+
+        if len(cnts_blue) > 5:
+            maxcontour = max(cnts_blue, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(maxcontour)
             center = (int(x), int(y))
-            a = np.arctan2(x - 320, 480 - y) * 180 / np.pi
+            a = np.arctan2(x - 320, 480 - y)
 
-            print 'angle:%f radius:%f ' % (a, radius)
+            print 'Blue angle:%f Blue radius:%f ' % (a, radius)
 
             # only proceed if the radius meets a minimum size
             if radius > 10:
@@ -59,13 +69,37 @@ class Filter:
                 cv2.circle(in_image, center, int(radius), (0, 255, 255), 2)
                 cv2.circle(in_image, center, 5, (0, 0, 255), -1)
 
-        for c in cnts:
+        for c in cnts_blue:
             cv2.drawContours(in_image, [c], -1, (0, 255, 0), 1)  # draws the Conture lines
-            cv2.drawContours(thresh, [c], -1, (0, 255, 0), 1)
+            cv2.drawContours(thresh_blue, [c], -1, (0, 255, 0), 1)
+
+        try:
+            self.pub_blue.publish(self.bridge.cv2_to_imgmsg(in_image, encoding="passthrough"))
+        except CvBridgeError as e:
+            print e
+
+        if len(cnts_red) > 5:
+            maxcontour = max(cnts_red, key=cv2.contourArea)
+            ((x, y), radius) = cv2.minEnclosingCircle(maxcontour)
+            center = (int(x), int(y))
+            a = np.arctan2(x - 320, 480 - y)
+
+            print 'Red angle:%f Red radius:%f ' % (a, radius)
+
+            # only proceed if the radius meets a minimum size
+            if radius > 10:
+                # draw the circle and centroid on the frame, then update the list of tracked points
+                cv2.circle(in_image, center, int(radius), (0, 0, 255), 2)
+                cv2.circle(in_image, center, 5, (0, 255, 0), -1)
+
+        for c in cnts_red:
+            cv2.drawContours(in_image, [c], -1, (0, 255, 0), 1)  # draws the Conture lines
+            cv2.drawContours(thresh_red, [c], -1, (0, 255, 0), 1)
+
         # Display the resulting frame
         try:
-            # self.pub_red.publish(self.bridge.cv2_to_imgmsg(frame, encoding="passthrough"))
-            self.pub_blue.publish(self.bridge.cv2_to_imgmsg(in_image, encoding="passthrough"))
+            self.pub_red.publish(self.bridge.cv2_to_imgmsg(in_image, encoding="passthrough"))
+            # self.pub_blue.publish(self.bridge.cv2_to_imgmsg(in_image, encoding="passthrough"))
         except CvBridgeError as e:
             print e
 
